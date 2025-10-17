@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .main-frame {
+      margin: 100px auto;
+      width: 307px;
+      padding: 10px;
+      border: 1px dashed rgb(162, 0, 255);
+      border-radius: 10%;
+      box-shadow: 12px 12px 12px 12px outset purple;
+      /* overflow: hidden; */
+    }
+body{
+  background-color: rgba(175, 175, 175, 0.521);
+}
+    .screen {
+      width: 90%;
+      border: 1px solid white;
+    
+
+      background-color:rgb(139, 105, 158);
+ color: white;
+border-radius: 24px;
+padding: 5px 10px;
+
+     text-align: right;
+         height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .b1 {
+      margin: 2px;
+      padding: 10px 15px;
+      border-radius: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      border: 1px dotted purple;
+    }
+
+    .function {
+      margin-top: 5px;
+      padding: 5px;
+    
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+ 
+    .equal {
+      display: block;
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 5px;
+      padding: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .scr{
+      display: flex;
+      justify-content: center;
+  
+    }
+  </style>
+</head>
+<body>
+  <div class="main-frame">
+    <div class="scr"><div class="screen">
+      <h1 id="output">0.00000000000</h1>
+    </div></div>
+    <div class="function" id="fun">
+      <button class="b1" value="1">1</button>
+      <button class="b1" value="2">2</button>
+      <button class="b1" value="3">3</button>
+      <button class="b1" value="4">4</button>
+      <button class="b1" value="5">5</button>
+      <button class="b1" value="6">6</button>
+      <button class="b1" value="7">7</button>
+      <button class="b1" value="8">8</button>
+      <button class="b1" value="9">9</button>
+      <button class="b1" value="0">0</button>
+      <button class="b1" value="+">+</button>
+      <button class="b1" value="-">-</button>
+      <button class="b1" value="*">x</button>
+      <button class="b1" value="/">/</button>
+      <button class="b1" value="C">C</button>
+    </div>
+    <button class="b1 equal" id="equal">=</button>
+  </div>
+
+  <script>
+    let output = document.getElementById("output");
+    let buttons = document.querySelectorAll(".b1");
+    let equal = document.getElementById("equal");
+
+    let currentInput = "";  // stores the input string (e.g. "12+3")
+    
+    // Handle button clicks
+    buttons.forEach(btn => {
+      btn.addEventListener("click", function() {
+        let value = this.value;
+
+        if (value === "C") {
+          currentInput = "";
+          output.innerText = "0";
+        } else if (["+", "-", "*", "/"].includes(value)) {
+          // Prevent adding multiple operators in a row
+          if (currentInput === "" || /[+\-*/]$/.test(currentInput)) return;
+          currentInput += value;
+          output.innerText = currentInput;
+        } else {
+          currentInput += value;
+          output.innerText = currentInput;
+        }
+      });
+    });
+//when press mouse is on the equal sign 
+  equal.addEventListener("mouseover", function() {
+      try {
+        // Replace 'x' with '*' if used for multiplication
+        let expression = currentInput.replace(/x/g, "*");
+        let result = eval(expression);
+        output.innerText = result;
+        currentInput = result.toString(); // allow chaining operations
+      } catch (err) {
+        output.innerText = "Error";
+        currentInput = "";
+      }
+    });
+    // When "=" is clicked
+    equal.addEventListener("click", function() {
+      try {
+        // Replace 'x' with '*' if used for multiplication
+        let expression = currentInput.replace(/x/g, "*");
+        let result = eval(expression);
+        output.innerText = result;
+        currentInput = result.toString(); // allow chaining operations
+      } catch (err) {
+        output.innerText = "Error";
+        currentInput = "";
+      }
+    });
+   
+  </script>
+</body>
+</html>
